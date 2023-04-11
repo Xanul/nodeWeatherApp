@@ -5,7 +5,7 @@ const Searches = require("./models/searches");
 const main = async () => {
 
   let menuOption;
-  const searchedTerms = new Searches();
+  const currentSearch = new Searches();
   
 
   do {
@@ -17,7 +17,8 @@ const main = async () => {
       case 1:
         // Mostrar mensaje
         const place = await readInput("Please enter a city");
-        console.log(place);
+        await currentSearch.city(place);
+        
         // Buscar el lugar
         // Seleccionar el lugar 
         // Datos del clima

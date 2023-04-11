@@ -1,4 +1,4 @@
-
+const axios = require('axios');
 
 class Searches {
 
@@ -16,9 +16,19 @@ class Searches {
   async city( place = '' ) {
 
     // Peticion HTTP
-    console.log(place);
+    try {
+      
+      const resp = await axios.get('https://reqres.in/api/users?page=2');
+      console.log(resp.data);  
+      return []; // Retornar los lugares que coincidan con la busqueda
 
-    return []; // Retornar los lugares que coincidan con la busqueda
+    } catch (error) {
+      
+      return [];
+      
+    }
+
+    
 
   }
 
