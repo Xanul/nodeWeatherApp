@@ -12,20 +12,35 @@ class Searches {
 
   }
 
+  // Getters
+  get paramsMapbox(){
+    return {
+      'limit': 5,
+      'language':'es',
+      'access_token':'pk.eyJ1IjoieGFudWwiLCJhIjoiY2xnY3UyNDVmMDFhNDNmbGh3c3lqYnRtYiJ9.AMLT37irmADPCIiiLpFlnw'
+    }
+  }
+
   // Methods
   async city( place = '' ) {
 
     // Peticion HTTP
     try {
       
-      const resp = await axios.get('https://reqres.in/api/users?page=2');
-      console.log(resp.data);  
+      const axiosInstance = axios.create({
+        baseURL: `https://api.mapbox.com/geocoding/v5/mapbox.places/${place}.json`,
+        params: this.paramsMapbox
+      })
+      
+      const resp = await axiosInstance.get();
+      console.log(resp.data);
+
       return []; // Retornar los lugares que coincidan con la busqueda
 
     } catch (error) {
       
       return [];
-      
+
     }
 
     
