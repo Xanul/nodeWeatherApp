@@ -1,6 +1,7 @@
 const { readInput, inquirerMenu, pause, placesList } = require("./helpers/inquirer");
 const Searches = require("./models/searches");
 require('dotenv').config();
+require('colors');
 
 
 // Main app
@@ -26,19 +27,20 @@ const main = async () => {
         // Select a place from matches
         const placeID = await placesList(placesFound);
         const selectedPlace = placesFound.find( plc => plc.id = placeID );
-        console.log('Lugar encontrado', selectedPlace);
 
         // Getting weather info
-        //TODO pending
+        const weatherInfo = await currentSearch.weatherByPlace(selectedPlace.lat, selectedPlace.lng);
 
         // Show the results in console
+        console.clear();
         console.log("\nCity Information\n".green);
-        console.log("City:", selectedPlace.name);
+        console.log("City:", selectedPlace.name.green);
         console.log("Lat:", selectedPlace.lat );
         console.log("Lng:", selectedPlace.lng);
-        console.log("Temperature:", );
-        console.log("Min Temp:", );
-        console.log("Max Temp:", );
+        console.log("Weather: ", weatherInfo.desc.yellow);
+        console.log("Temperature:", weatherInfo.temp);
+        console.log("Min Temp:", weatherInfo.min);
+        console.log("Max Temp:", weatherInfo.max);
         break;
     
       default:

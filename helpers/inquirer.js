@@ -105,7 +105,7 @@ const placesList = async ( places = [] ) => {
   ]
 
   const { id } = await inquirer.prompt(questions);
-  console.log('ID de lugar', id);
+  
   return id;
 
 

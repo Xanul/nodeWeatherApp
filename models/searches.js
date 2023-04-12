@@ -8,8 +8,6 @@ class Searches {
   constructor() {
     //TODO: Leer base de datos si existe
 
-
-
   }
 
   // Getters
@@ -21,10 +19,16 @@ class Searches {
     }
   }
 
+  get paramsOpenWeather(){
+    return {
+      'appid': process.env.OPENWEATHER_KEY,
+      'units': 'metric'
+    }
+  }
+
   // Methods
   async city( place = '' ) {
-
-    // Peticion HTTP
+    // HTTP request for places
     try {
       
       const axiosInstance = axios.create({
@@ -46,11 +50,34 @@ class Searches {
       return [];
 
     }
-
-    
-
   }
 
+  async weatherByPlace(lat, lon) {
+
+    try {
+      
+      // Instancia de axios, axios.create();
+      const axiosInstance2 = axios.create({
+        baseURL: `https://api.openweathermap.org/data/2.5/weather`,
+        params: {...this.paramsOpenWeather, lat, lon}
+      });
+      // extraer la informacion de la data
+      const resp = await axiosInstance2.get();
+      const {main, weather} = resp.data;
+
+      return {
+        temp: main.temp,
+        min: main.temp_min,
+        max: main.temp_max,
+        desc: weather[0].description
+      }
+
+    } catch (error) {
+      console.log('No se logro encontrar la ciudad')
+      console.log(error);
+    }
+
+  }
 
 }
 
