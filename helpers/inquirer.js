@@ -76,21 +76,21 @@ const readInput = async ( msg ) => {
 }
 
 // Menu for deleting a task
-const deleteTaskOptions = async ( tasks = [] ) => {
+const placesList = async ( places = [] ) => {
 
-  // Using map to crate a list of tasks to delete
-  const deleteOptions = tasks.map((task, i) => {
+  // Using map to crate a list of places
+  const placesOptions = places.map((place, i) => {
 
     const idx = `${i+1}.`.green
 
     return {
-      value: task.id,
-      name: `${idx} ${task.desc}`
+      value: place.id,
+      name: `${idx} ${place.name}`
     }
   })
 
   // Adding an option at the top to cancel the operation
-  deleteOptions.unshift({
+  placesOptions.unshift({
     value: '0',
     name: '0. '.green + "Cancel".red
   })
@@ -99,13 +99,13 @@ const deleteTaskOptions = async ( tasks = [] ) => {
     {
       type: 'list',
       name: 'id',
-      message: "Select a task to delete",
-      choices: deleteOptions
+      message: "Select a place",
+      choices: placesOptions
     }
   ]
 
   const { id } = await inquirer.prompt(questions);
-
+  console.log('ID de lugar', id);
   return id;
 
 
@@ -161,7 +161,7 @@ module.exports = {
   inquirerMenu,
   pause,
   readInput,
-  deleteTaskOptions,
+  placesList,
   confirm,
   checkTaskOptions
 }

@@ -1,8 +1,9 @@
-const { readInput, inquirerMenu, pause } = require("./helpers/inquirer");
+const { readInput, inquirerMenu, pause, placesList } = require("./helpers/inquirer");
 const Searches = require("./models/searches");
+require('dotenv').config();
 
-console.log(process.env);
 
+// Main app
 const main = async () => {
 
   let menuOption;
@@ -16,18 +17,25 @@ const main = async () => {
     
     switch (menuOption) {
       case 1:
-        // Mostrar mensaje
-        const place = await readInput("Please enter a city");
-        await currentSearch.city(place);
+        // Ask for user input
+        const placeToSearch = await readInput("Please enter a city");
+
+        // Search user input using API
+        const placesFound = await currentSearch.city(placeToSearch);
         
-        // Buscar el lugar
-        // Seleccionar el lugar 
-        // Datos del clima
-        // Mostrar los resultados
+        // Select a place from matches
+        const placeID = await placesList(placesFound);
+        const selectedPlace = placesFound.find( plc => plc.id = placeID );
+        console.log('Lugar encontrado', selectedPlace);
+
+        // Getting weather info
+        //TODO pending
+
+        // Show the results in console
         console.log("\nCity Information\n".green);
-        console.log("City:", );
-        console.log("Lat:", );
-        console.log("Lng:", );
+        console.log("City:", selectedPlace.name);
+        console.log("Lat:", selectedPlace.lat );
+        console.log("Lng:", selectedPlace.lng);
         console.log("Temperature:", );
         console.log("Min Temp:", );
         console.log("Max Temp:", );
@@ -47,5 +55,5 @@ const main = async () => {
 
 }
 
-// main();
+main();
 

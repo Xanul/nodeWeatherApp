@@ -17,7 +17,7 @@ class Searches {
     return {
       'limit': 5,
       'language':'es',
-      'access_token':'pk.eyJ1IjoieGFudWwiLCJhIjoiY2xnY3UyNDVmMDFhNDNmbGh3c3lqYnRtYiJ9.AMLT37irmADPCIiiLpFlnw'
+      'access_token':process.env.MAPBOX_KEY
     }
   }
 
@@ -33,9 +33,13 @@ class Searches {
       })
       
       const resp = await axiosInstance.get();
-      console.log(resp.data);
-
-      return []; // Retornar los lugares que coincidan con la busqueda
+      
+      return resp.data.features.map( place => ({
+        id: place.id,
+        name: place.place_name,
+        lng: place.center[0],
+        lat: place.center[1]
+      }))
 
     } catch (error) {
       
