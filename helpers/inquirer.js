@@ -63,7 +63,7 @@ const readInput = async ( msg ) => {
       message: msg,
       validate(value) {
         if ( value.length === 0 ){
-          return 'Please write a task'
+          return 'Please write a city or place'
         }
         return true;
       }
@@ -75,7 +75,7 @@ const readInput = async ( msg ) => {
 
 }
 
-// Menu for deleting a task
+// Menu for selecting a place
 const placesList = async ( places = [] ) => {
 
   // Using map to crate a list of places

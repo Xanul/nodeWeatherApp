@@ -26,7 +26,11 @@ const main = async () => {
         
         // Select a place from matches
         const placeID = await placesList(placesFound);
+        if ( placeID === '0' ) break;
         const selectedPlace = placesFound.find( plc => plc.id = placeID );
+
+        // Saving place in history
+        currentSearch.addToHisotry( selectedPlace.name )
 
         // Getting weather info
         const weatherInfo = await currentSearch.weatherByPlace(selectedPlace.lat, selectedPlace.lng);
@@ -41,6 +45,13 @@ const main = async () => {
         console.log("Temperature:", weatherInfo.temp);
         console.log("Min Temp:", weatherInfo.min);
         console.log("Max Temp:", weatherInfo.max);
+        break;
+
+      case 2:
+        currentSearch.history.forEach((place, i) => {
+          const idx = `${i+1}.`.green;
+          console.log(`${idx} ${place}`);
+        })
         break;
     
       default:
