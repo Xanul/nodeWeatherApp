@@ -13,6 +13,7 @@ const main = async () => {
 
   do {
 
+    await pause();
     menuOption = await inquirerMenu();
     console.log(menuOption);
     
@@ -30,7 +31,8 @@ const main = async () => {
         const selectedPlace = placesFound.find( plc => plc.id = placeID );
 
         // Saving place in history
-        currentSearch.addToHisotry( selectedPlace.name )
+        currentSearch.addToHisotry( selectedPlace.name );
+
 
         // Getting weather info
         const weatherInfo = await currentSearch.weatherByPlace(selectedPlace.lat, selectedPlace.lng);

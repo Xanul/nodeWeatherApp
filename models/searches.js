@@ -9,7 +9,8 @@ class Searches {
 
   // Constructor
   constructor() {
-    //TODO: Leer base de datos si existe
+    
+    this.readDB();
 
   }
 
@@ -27,6 +28,16 @@ class Searches {
       'appid': process.env.OPENWEATHER_KEY,
       'units': 'metric'
     }
+  }
+
+  get historyCap() {
+    
+    const newArray = this.history.map( word => {
+      return word.split(" ").map( word2 => word2.charAt(0).toUpperCase() + word2.slice(1) ).join(" ")
+    })
+
+    return newArray
+
   }
 
   // Methods
@@ -84,16 +95,18 @@ class Searches {
 
   addToHisotry( place = '' ) {
 
-    // Todo: prevenir duplicados
+    // Verify if the place already exists in array
     if ( this.history.includes( place.toLowerCase() ) ) return;
 
+    // Adds the place in the array
     this.history.unshift(place.toLowerCase());
 
-    // Todo: Grabar en DB
+    // Saves the array to database
     this.saveToDB();
 
   }
 
+  // Method to save to database file
   saveToDB() {
     
     const payload = {
@@ -106,7 +119,14 @@ class Searches {
 
   readDB(){
 
+    if ( !fs.existsSync( this.dbPath ) ) return
 
+    const infoFromDB = fs.readFileSync( this.dbPath, {encoding: 'utf-8'} );
+    const data = JSON.parse( infoFromDB );
+  
+    this.history = data.history
+    
+    console.log(this.historyCap)
 
   }
 
